@@ -1,34 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_res/models/order.dart';
 
-class OrderServices{
+
+import '../models/order.dart';
+
+class OrderServices {
   String collection = "orders";
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void createOrder({String userId, String id,String description,String status ,List cart, int totalPrice}) {
+  void createOrder(
+      {String userId, String id, String description, String status, List cart, int totalPrice}) {
     _firestore.collection(collection).doc(id).set({
       "userId": userId,
       "id": id,
       "cart": cart,
       "total": totalPrice,
-      "createdAt": DateTime.now().millisecondsSinceEpoch,
+      "createdAt": DateTime
+          .now()
+          .millisecondsSinceEpoch,
       "description": description,
       "status": status
     });
   }
 
-  Future<List<OrderModel>> getUserOrders({String userId}) async =>
+  Future<List<OrderModel>> restaurantOrders({String restaurantId}) async =>
       _firestore
           .collection(collection)
-          .where("userId", isEqualTo: userId)
+          .where("restaurantIds", arrayContains: restaurantId)
           .get()
           .then((result) {
         List<OrderModel> orders = [];
         for (DocumentSnapshot order in result.docs) {
           orders.add(OrderModel.fromSnapshot(order));
         }
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+        print("NUMBER OF ORDERS: " + orders.length.toString());
+
         return orders;
       });
-
 }

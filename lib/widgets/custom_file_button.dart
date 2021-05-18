@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_res/helpers/style.dart';
+
+import '../helpers/style.dart';
 
 import 'customtext.dart';
-
 
 class CustomFileUploadButton extends StatelessWidget {
   final IconData icon;

@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_res/models/category.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-
-
 import '../helpers/style.dart';
+import '../models/category.dart';
 import 'customtext.dart';
 import 'loading.dart';
 
@@ -13,6 +10,7 @@ class CategoryWidget extends StatelessWidget {
   final CategoryModel category;
 
   const CategoryWidget({Key key, this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,9 +29,8 @@ class CategoryWidget extends StatelessWidget {
                       child: Loading(),
                     )),
                     Center(
-                      child: FadeInImage.memoryNetwork(placeholder:kTransparentImage, image: category.image),
+                      child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: category.image),
                     )
-
                   ],
                 )),
           ),
@@ -67,8 +64,6 @@ class CategoryWidget extends StatelessWidget {
                   child: CustomText(text: category.name, color: white, size: 26, weight: FontWeight.w300,)))
         ],
       ),
-    ) ;
+    );
   }
 }
-
-

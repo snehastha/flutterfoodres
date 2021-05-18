@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_res/helpers/style.dart';
-import 'package:flutter_res/providers/app.dart';
-import 'package:flutter_res/providers/category.dart';
-import 'package:flutter_res/providers/product.dart';
-import 'package:flutter_res/providers/user.dart';
-import 'package:flutter_res/widgets/custom_file_button.dart';
-import 'package:flutter_res/widgets/customtext.dart';
-import 'package:flutter_res/widgets/loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/style.dart';
+import '../providers/app.dart';
+import '../providers/category.dart';
+import '../providers/product.dart';
+import '../providers/user.dart';
+import '../widgets/custom_file_button.dart';
+import '../widgets/customtext.dart';
+import '../widgets/loading.dart';
 
 class AddProductScreen extends StatefulWidget {
   @override
@@ -21,10 +21,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-   final productprovider = Provider.of<ProductProvider>(context);
-   final categoryprovider = Provider.of<CategoryProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+    final categoryProvider = Provider.of<CategoryProvider>(context);
     final appProvider = Provider.of<AppProvider>(context);
-   final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+
+
 
     return Scaffold(
       key: _key,
@@ -37,7 +39,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             "Add Product",
             style: TextStyle(color: black),
           )),
-      body:appProvider.isLoading ? Loading(): ListView(
+      body: appProvider.isLoading ? Loading() : ListView(
         children: <Widget>[
           SizedBox(
             height: 10,
@@ -47,120 +49,95 @@ class _AddProductScreenState extends State<AddProductScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                   Container(
-
-                     child:productprovider.productImage != null?
-                     CustomFileUploadButton(
-                       icon: Icons.image,
-                        text: "Add image",
-                      onTap: () async {
- //                      productprovider.loadImageFile();
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext bc){
-                              return Container(
-                                child: new Wrap(
-                                  children: <Widget>[
-                                    new ListTile(
-                                        leading: new Icon(Icons.image),
-                                        title: new Text('Gallery'),
-                                        onTap: () async {
-                                          productprovider.getImageFile( ImageSource.gallery);
-                                          Navigator.pop(context);
-                                        }
-                                    ),
-                                    new ListTile(
+                Container(
+                  child: productProvider?.productImage == null
+                      ? CustomFileUploadButton(
+                    icon: Icons.image,
+                    text: "Add image",
+                    onTap: () async {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext bc) {
+                            return Container(
+                              child: new Wrap(
+                                children: <Widget>[
+                                  new ListTile(
+                                      leading: new Icon(Icons.image),
+                                      title: new Text('From gallery'),
+                                      onTap: () async {
+                                        productProvider.getImageFile(
+                                            source: ImageSource.gallery);
+                                        Navigator.pop(context);
+                                      }),
+                                  new ListTile(
                                       leading: new Icon(Icons.camera_alt),
-                                      title: new Text('Camera'),
-                                      onTap: () async { productprovider.getImageFile( ImageSource.camera);
-                                      Navigator.pop(context);
-                                      }
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                        );
-
-
-//                      itemProvider.loadCoverFile();
-                      },
-                  ):
-
-              Stack(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                      child: Image.file(productprovider.productImage)),
-                 
-                ],
-              ),
-                   ),
-
-
-
-//                    Visibility(
-//                      visible: itemProvider.coverFile != null,
-//                      child: Positioned(
-//                        bottom: 20,
-//                        right: 50,
-//                        child: Align(
-//                            alignment: Alignment.bottomCenter,
-//                            child: CustomText(
-//                              text: "${itemProvider.coverFileName} added",
-//                              size: 10,
-//                              color: green,
-//                            )),
-//                      ),
-//                    )
-                  ],
+                                      title: new Text('Take a photo'),
+                                      onTap: () async {
+                                        productProvider.getImageFile(
+                                            source: ImageSource.camera);
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                  )
+                      : ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.file(productProvider.productImage)),
                 ),
+              ],
             ),
+          ),
           Visibility(
-            visible: productprovider.productImage != null,
-            child: FlatButton(onPressed:() {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext bc) {
-                    return Container(
-                      child: new Wrap(
-                        children: <Widget>[
-                          new ListTile(
-                              leading: new Icon(Icons.image),
-                              title: new Text('Gallery'),
-                              onTap: () async {
-                                productprovider.getImageFile(ImageSource.gallery);
-                                Navigator.pop(context);
-                              }
-                          ),
-                          new ListTile(
-                              leading: new Icon(Icons.camera_alt),
-                              title: new Text('Camera'),
-                              onTap: () async {
-                                productprovider.getImageFile(ImageSource.camera);
-                                Navigator.pop(context);
-                              }
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-            },
-
-         child: CustomText(text: "Change image",color: primary,)),
+            visible: productProvider.productImage != null,
+            child: FlatButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext bc) {
+                      return Container(
+                        child: new Wrap(
+                          children: <Widget>[
+                            new ListTile(
+                                leading: new Icon(Icons.image),
+                                title: new Text('From gallery'),
+                                onTap: () async {
+                                  productProvider.getImageFile(
+                                      source: ImageSource.gallery);
+                                  Navigator.pop(context);
+                                }),
+                            new ListTile(
+                                leading: new Icon(Icons.camera_alt),
+                                title: new Text('Take a photo'),
+                                onTap: () async {
+                                  productProvider.getImageFile(
+                                      source: ImageSource.camera);
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              child: CustomText(
+                text: "Change Image",
+                color: primary,
+              ),
+            ),
           ),
           Divider(),
           Padding(
-              padding:
-              const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   CustomText(text: "featured Magazine"),
                   Switch(
-                      value:productprovider.featured,
+                      value: productProvider.featured,
                       onChanged: (value) {
-                        productprovider.changeFeatured();
+                        productProvider.changeFeatured();
                       })
                 ],
               )),
@@ -168,32 +145,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              CustomText(text: "Category:", color: grey, weight: FontWeight.w300,),
+              CustomText(
+                text: "Category:",
+                color: grey,
+                weight: FontWeight.w300,
+              ),
               DropdownButton<String>(
-                value: categoryprovider.selectedCategory,
-                style: TextStyle(
-                    color: primary,
-                    fontWeight: FontWeight.w300
+                value: categoryProvider.selectedCategory,
+                style: TextStyle(color: primary, fontWeight: FontWeight.w300),
+                icon: Icon(
+                  Icons.filter_list,
+                  color: primary,
                 ),
-                icon: Icon(Icons.filter_list,
-                  color: primary,),
                 elevation: 0,
-                onChanged: (value){
-                  categoryprovider.changeSelectedCategory(newCategory: value.trim());
+                onChanged: (value) {
+                  categoryProvider.changeSelectedCategory(
+                      newCategory: value.trim());
                 },
-                items:categoryprovider.categoriesNames.map<DropdownMenuItem<String>>((String value){
+                items: categoryProvider.categoriesNames
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value));
+                      value: value, child: Text(value));
                 }).toList(),
-
               ),
             ],
           ),
           Divider(),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
             child: Container(
               decoration: BoxDecoration(
                   color: white,
@@ -208,7 +187,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 14),
                 child: TextField(
-                  controller: productprovider.name,
+                  controller: productProvider.name,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Product name",
@@ -219,8 +198,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
             child: Container(
               decoration: BoxDecoration(
                   color: white,
@@ -235,7 +213,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 14),
                 child: TextField(
-                  controller: productprovider.description,
+                  controller: productProvider.description,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Product description",
@@ -246,8 +224,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
             child: Container(
               decoration: BoxDecoration(
                   color: white,
@@ -262,7 +239,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 14),
                 child: TextField(
-                  controller: productprovider.price,
+                  controller: productProvider.price,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       border: InputBorder.none,
@@ -274,8 +251,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
             child: Container(
                 decoration: BoxDecoration(
                     color: primary,
@@ -288,30 +264,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           blurRadius: 4)
                     ]),
                 child: FlatButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     appProvider.changeLoading();
-                    if(! await productprovider.uploadProduct(
-                      category: categoryprovider.selectedCategory,
-                      restaurantId: userProvider.restaurant.id,
-                      restaurant: userProvider.restaurant.name,
+                    if (!await productProvider.uploadProduct(
+                        category: categoryProvider.selectedCategory,
+                        restaurantId: userProvider.restaurant.id,
+                        restaurant: userProvider.restaurant.name
                     )) {
-
-                      _key.currentState.showSnackBar(
-                          SnackBar(content: Text(" Upload Failed"),
-                            duration: const Duration(seconds: 10),
-                          ));
+                      _key.currentState.showSnackBar(SnackBar(
+                        content: Text("Upload Failed"),
+                        duration: const Duration(seconds: 10),
+                      ));
                       appProvider.changeLoading();
-                    return;
+                      return;
                     }
-                    productprovider.clear();
-                    _key.currentState.showSnackBar(
-                        SnackBar(content: Text(" Uploaded"),
-                          duration: const Duration(seconds: 10),
-                        ));
+                    productProvider.clear();
+                    _key.currentState.showSnackBar(SnackBar(
+                      content: Text("Upload completed"),
+                      duration: const Duration(seconds: 10),
+                    ));
                     userProvider.loadProductsByRestaurant(restaurantId: userProvider.restaurant.id);
+                    await userProvider.reload();
                     appProvider.changeLoading();
                   },
-
                   child: CustomText(
                     text: "Post",
                     color: white,

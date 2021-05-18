@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+
 class CategoryModel {
   static const ID = "id";
   static const NAME = "name";
@@ -17,10 +17,8 @@ class CategoryModel {
   String get image => _image;
 
   CategoryModel.fromSnapshot(DocumentSnapshot snapshot){
-    _id = snapshot.data()[ID.compareTo(ID)];
+    _id = snapshot.data()[ID];
     _name = snapshot.data()[NAME];
     _image = snapshot.data()[IMAGE];
   }
 }
-
-

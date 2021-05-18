@@ -1,24 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_res/models/products.dart';
 
+
+import '../models/products.dart';
 
 class ProductServices {
   String collection = "products";
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future createProduct({Map data}) async{
+  Future createProduct({Map data})async{
     _firestore.collection(collection).doc(data['id']).set({
-      "id":data['id'],
-      "name":data['name'],
-      "image":data['image'],
-      "rates":data['rates'],
-      "rating":data['rating'],
-      "price":data['price'],
-      "restaurant":data['restaurant'],
-      "restaurantId":data['restaurantId'],
-      "description":data['description'],
-      "featured":data['featured'],
-
+      "id": data['id'],
+      "name": data['name'],
+      "image": data['image'],
+      "rates": data['rates'],
+      "rating": data['rating'],
+      "price": data['price'],
+      "restaurant": data['restaurant'],
+      "restaurantId": data['restaurantId'],
+      "description": data['description'],
+      "featured": data['featured'],
     });
   }
 
@@ -27,7 +27,6 @@ class ProductServices {
         List<ProductModel> products = [];
         for (DocumentSnapshot product in result.docs) {
           products.add(ProductModel.fromSnapshot(product));
-
         }
         return products;
       });
@@ -47,8 +46,13 @@ class ProductServices {
         List<ProductModel> products = [];
         for (DocumentSnapshot product in result.docs) {
           products.add(ProductModel.fromSnapshot(product));
-          print("PRODUCTS:${products.length}");
         }
+        print("PRODUCTS: ${products.length}");
+        print("PRODUCTS: ${products.length}");
+        print("PRODUCTS: ${products.length}");
+        print("PRODUCTS: ${products.length}");
+        print("PRODUCTS: ${products.length}");
+
         return products;
       });
 

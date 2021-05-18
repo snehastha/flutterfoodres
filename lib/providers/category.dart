@@ -5,8 +5,8 @@ import '../models/category.dart';
 class CategoryProvider with ChangeNotifier{
   CategoryServices _categoryServices = CategoryServices();
   List<CategoryModel> categories = [];
-List<String> categoriesNames=[];
-String  selectedCategory;
+  List<String> categoriesNames = [];
+  String selectedCategory;
 
   CategoryProvider.initialize(){
     loadCategories();
@@ -17,10 +17,12 @@ String  selectedCategory;
     for(CategoryModel category in categories){
       categoriesNames.add(category.name);
     }
-    selectedCategory=categoriesNames[0];
+    selectedCategory = categoriesNames[0];
     notifyListeners();
   }
+
   changeSelectedCategory({String newCategory}){
-    selectedCategory=newCategory;
+    selectedCategory = newCategory;
+    notifyListeners();
   }
 }

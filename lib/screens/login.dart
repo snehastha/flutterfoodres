@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_res/helpers/style.dart';
-import 'package:flutter_res/helpers/system_navigation.dart';
-import 'package:flutter_res/providers/user.dart';
-import 'package:flutter_res/screens/registration.dart';
-import 'package:flutter_res/widgets/customtext.dart';
-import 'package:flutter_res/widgets/loading.dart';
 
 import 'package:provider/provider.dart';
 
+import '../helpers/style.dart';
+import '../helpers/system_navigation.dart';
+import '../providers/user.dart';
+import '../widgets/customtext.dart';
+import '../widgets/loading.dart';
 import 'dashboard.dart';
+import 'registration.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
